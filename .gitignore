@@ -5,3 +5,6 @@ venv/
 build/
 dist/
 *.spec
+/build/
+/dist/
+Apollo.spec
