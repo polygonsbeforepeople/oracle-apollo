@@ -1,54 +1,7 @@
 
-import random
 import tkinter as tk
 from tkinter import font
-
-
-# ---------- Apollo's personality ----------
-
-FORTUNES = [
-    (
-        "THE PROPHECY",
-        "A breakthrough approaches. It will occur immediately "
-        "after you stop staring at the problem.",
-    ),
-    (
-        "DIVINE SHADE",
-        "I gave mortals the gift of reason. And yet, here you "
-        "are, opening the same tab again.",
-    ),
-    (
-        "THE BLESSING",
-        "You need not conquer the entire day. Begin with the "
-        "next hour. Even the sun rises one dawn at a time.",
-    ),
-    (
-        "THE WARNING",
-        "Beware the task you call 'a quick one.' I have seen "
-        "how this story ends.",
-    ),
-    (
-        "ANCIENT WISDOM",
-        "You have gathered enough information to begin. "
-        "Further procrastination will not become research "
-        "merely because you rename it.",
-    ),
-    (
-        "DIVINE OBSERVATION",
-        "You have checked that same thing three times. "
-        "The fourth inspection shall surely alter reality.",
-    ),
-    (
-        "THE MYSTERY",
-        "Someone may think of you today. Whether they reply "
-        "to your message remains beyond my jurisdiction.",
-    ),
-    (
-        "A RARE ACT OF KINDNESS",
-        "Rest is not a reward you must earn by becoming "
-        "extraordinary. Even a god knows when to pause.",
-    ),
-]
+from commentary import get_random_commentary
 
 
 # ---------- Visual design ----------
@@ -75,7 +28,7 @@ class ApolloApp:
         self.root.geometry("360x440")
         self.root.minsize(360, 440)
 
-        self.current_fortune = None
+        self.current_commentary = None
         self.is_animating = False
 
         self.title_font = font.Font(
@@ -138,16 +91,6 @@ class ApolloApp:
             bg=BG,
         )
         self.instruction.pack(pady=(0, 8))
-
-        self.message_title = tk.Label(
-            self.root,
-            text="",
-            font=("Segoe UI", 9, "bold"),
-            fg=GOLD,
-            bg=BG,
-            wraplength=310,
-        )
-        self.message_title.pack(pady=(2, 4))
 
         self.message = tk.Label(
             self.root,
@@ -279,9 +222,8 @@ class ApolloApp:
             return
 
         self.is_animating = True
-        self.current_fortune = random.choice(FORTUNES)
+        self.current_commentary = get_random_commentary()
 
-        self.message_title.config(text="")
         self.message.config(text="")
         self.instruction.config(text="The oracle is considering your fate...")
 
@@ -294,10 +236,7 @@ class ApolloApp:
 
     def reveal_fortune(self):
         self.draw_cookie("open")
-
-        title, message = self.current_fortune
-        self.message_title.config(text=title)
-        self.message.config(text=f"“{message}”")
+        self.message.config(text=f"“{self.current_commentary}”")
         self.instruction.config(
             text="Apollo has spoken. Try to keep up."
         )
